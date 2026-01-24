@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "L8BQ9T4H52.Redacted.zkChat",
+        "paths": ["/room/*", "/otm/*", "/file/*", "/f/*", "/chat/*"]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["L8BQ9T4H52.Redacted.zkChat"]
+  }
+}

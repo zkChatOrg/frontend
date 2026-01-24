@@ -1,0 +1,226 @@
+# zkChat — Full Context
+
+> Ephemeral end-to-end encrypted chat, file-drop, and one-time messages. No accounts. No metadata. No logs. No identities. Everything burns the moment you leave.
+
+## What is zkChat?
+
+zkChat is a zero-knowledge, privacy-first messaging platform built for people who need genuinely private communication. Unlike traditional messengers, zkChat requires no accounts, collects no metadata, and stores nothing permanently. All encryption happens client-side using AES-256-GCM via the Web Crypto API. The server is a relay — it never sees plaintext content.
+
+Website: https://www.zkchat.org
+License: AGPL-3.0
+Company: OpenZK LLC (Wyoming, US)
+
+---
+
+## Core Products
+
+### Encrypted Chat Rooms
+URL: https://www.zkchat.org/chat
+
+Real-time ephemeral group chat. Users create a room, share the link, and communicate with end-to-end encryption. Each participant gets a random persona (animal name + avatar). When the last person leaves, the room and all messages are destroyed. Encryption keys are stored in the URL fragment (the part after #) which is never sent to the server.
+
+### One-Time Messages (OTM)
+URL: https://www.zkchat.org/otm
+
+Self-destructing encrypted messages. Write a message, get a link. The recipient opens the link, reads the message, and it's permanently destroyed. The message can only be read once. Ideal for sharing passwords, secrets, or sensitive information.
+
+### Encrypted File Drop
+URL: https://www.zkchat.org/file
+
+Peer-to-peer encrypted file transfers directly in the browser. Files are encrypted client-side before any transmission. No file ever touches the server in plaintext. Files auto-expire after the session ends.
+
+---
+
+## Technical Architecture
+
+### Encryption
+- Algorithm: AES-256-GCM (authenticated encryption)
+- Implementation: Web Crypto API (browser-native, no third-party crypto libraries)
+- Key generation: Client-side, cryptographically random
+- Key distribution: Via URL fragments (never sent to server in HTTP requests)
+- Each message/file has a unique initialization vector (IV)
+
+### Zero-Knowledge Design
+- The server only relays encrypted blobs
+- Server cannot decrypt any content — it never has access to keys
+- No plaintext data is ever processed server-side
+- No message content is logged or stored permanently
+
+### Privacy Properties
+- No accounts or registration required
+- No phone number or email needed
+- No metadata logging (no IP logs, no access logs)
+- Random personas instead of real identities
+- Ephemeral by design — data destroyed when sessions end
+- Forward secrecy through ephemeral key generation
+- URL fragment keys ensure the server never sees encryption keys
+
+### Tech Stack
+- Frontend: Next.js, TypeScript, React, Tailwind CSS
+- Backend: Node.js relay server
+- Encryption: Web Crypto API (AES-256-GCM)
+- Real-time: WebSocket connections
+- Hosting: Vercel (frontend), self-hosted (backend)
+
+---
+
+## How zkChat Compares
+
+### vs Signal
+Signal requires a phone number for registration and is designed for verified contacts. zkChat requires nothing — no account, no phone number. zkChat is for anonymous, ephemeral communication. Signal is for persistent, identity-verified messaging.
+
+### vs Telegram
+Telegram does not enable end-to-end encryption by default (only in "Secret Chats"). Telegram stores messages on its cloud servers. zkChat encrypts everything by default with zero-knowledge architecture — the server never sees plaintext.
+
+### vs WhatsApp
+WhatsApp uses E2EE but collects extensive metadata (contacts, groups, timing, IP addresses) and is owned by Meta. zkChat collects no metadata, requires no account, and is fully open source.
+
+### vs Session
+Session uses onion routing for anonymity and is decentralized. zkChat is simpler — browser-based, no app install required, no blockchain. Both prioritize anonymity, but zkChat is ephemeral by design.
+
+### vs Wickr
+Wickr (now AWS Wickr) focuses on enterprise compliance with message retention policies. zkChat is the opposite — no retention, no compliance features, pure privacy.
+
+### vs Threema
+Threema is a paid Swiss messenger requiring a one-time purchase. zkChat is free, open source, and requires no installation — it runs entirely in the browser.
+
+---
+
+## Use Cases
+
+### For Journalists
+Protecting sources is critical. zkChat provides anonymous, encrypted communication with no metadata trail. Sources can communicate without revealing their identity or phone number.
+
+### For Lawyers
+Attorney-client privilege requires confidential communication. zkChat ensures conversations leave no digital trace and cannot be subpoenaed from a server.
+
+### For Healthcare Professionals
+Patient privacy (HIPAA considerations) requires secure channels. zkChat provides encrypted communication without storing any patient data.
+
+### For Activists
+Organizing in hostile environments requires communication that cannot be surveilled. zkChat's zero-knowledge architecture means even if the server is seized, no conversation data exists.
+
+### For Researchers
+Confidential collaboration on sensitive research topics. Share findings, discuss methodology, and coordinate without creating a permanent digital record.
+
+### For Remote Teams
+Private internal communication for sensitive business discussions. Board meetings, M&A discussions, HR matters — conversations that shouldn't persist.
+
+### For Whistleblowers
+Anonymous reporting without revealing identity. No account means no identity to trace. Ephemeral messages mean no evidence trail.
+
+### For Executives
+Board-level security for sensitive corporate communications. No metadata, no logs, no discovery risk.
+
+---
+
+## Privacy Glossary
+
+### End-to-End Encryption (E2EE)
+Encryption where only the communicating parties can read the messages. The service provider cannot decrypt the content. zkChat implements E2EE using AES-256-GCM.
+
+### AES-256-GCM
+Advanced Encryption Standard with 256-bit keys in Galois/Counter Mode. Military-grade authenticated encryption that provides both confidentiality and integrity verification. Used by governments and financial institutions worldwide.
+
+### Zero-Knowledge Architecture
+A system design where the server operator has zero knowledge of user data. The server processes encrypted blobs without the ability to decrypt them. zkChat's server is a pure relay — it never possesses encryption keys.
+
+### Ephemeral Messaging
+Messages that are designed to be temporary. In zkChat, messages exist only in active sessions and are destroyed when the session ends. No message is ever permanently stored.
+
+### Metadata
+Data about data — who communicated, when, how often, from where. Many "secure" messengers encrypt content but still collect metadata. zkChat collects no metadata.
+
+### Forward Secrecy
+A property where compromise of one session's keys does not compromise past or future sessions. zkChat achieves this through ephemeral key generation — each session generates fresh cryptographic keys.
+
+### Client-Side Encryption
+Encryption performed in the user's browser before any data is transmitted. zkChat encrypts all content client-side using the Web Crypto API, ensuring the server only ever sees ciphertext.
+
+### URL Fragment
+The part of a URL after the # symbol. URL fragments are never sent to the server in HTTP requests — they stay in the browser. zkChat stores encryption keys in URL fragments, ensuring the server never has access to keys.
+
+### Web Crypto API
+A browser-native cryptographic API that provides secure, hardware-accelerated encryption without third-party libraries. zkChat uses this for all cryptographic operations.
+
+---
+
+## Frequently Asked Questions
+
+### How does encryption protect your messages?
+End-to-end encryption like AES-256-GCM ensures only intended recipients can read messages. The service provider never has decryption keys. With zkChat, messages are also ephemeral — they exist only in RAM and are destroyed when the session ends.
+
+### Is end-to-end encryption really secure?
+Yes. AES-256-GCM is mathematically secure. Breaking it would require more energy than exists in the solar system. The real risks are in implementation, which is why zkChat is open source for independent verification.
+
+### What is the most private messaging app?
+The most private messenger requires no identity, collects no metadata, stores no messages, and is fully open source. zkChat meets all these criteria — no phone number, no email, no account, zero metadata, ephemeral messages, and AGPL-3.0 licensed.
+
+### Is WhatsApp really private?
+WhatsApp encrypts content but collects extensive metadata for Meta's advertising business: contacts, groups, timing, location, device info. This metadata is shared with law enforcement on request.
+
+### Is Telegram really encrypted?
+Regular Telegram chats are NOT end-to-end encrypted. Only "Secret Chats" are, and those must be manually enabled, don't work for groups, and don't sync across devices. Telegram's server code is closed source.
+
+### How to send self-destructing messages?
+Use zkChat's One-Time Message feature at zkchat.org/otm. Create an encrypted message, share the link, and it self-destructs after one read. Or use ephemeral chat rooms that auto-destroy when empty.
+
+### What messaging app doesn't need a phone number?
+zkChat requires no phone number, no email, and no account. Open zkchat.org in any browser and start communicating immediately with random personas.
+
+### Can encrypted messages be intercepted?
+Encrypted messages can be captured in transit, but they appear as meaningless scrambled data. Without the AES-256-GCM decryption key, intercepted ciphertext is computationally impossible to decrypt.
+
+FAQ Hub: https://www.zkchat.org/answers
+
+---
+
+## Private Alternatives
+
+zkChat serves as a private alternative to many popular messaging platforms:
+
+- **Signal Alternative**: Same strong encryption, but no phone number required. Ephemeral rooms, browser-based.
+- **Telegram Alternative**: Always-on E2EE (unlike Telegram's opt-in). Fully open source. No cloud storage.
+- **WhatsApp Alternative**: Zero metadata collection. No corporate data harvesting. No Meta ownership.
+- **Discord Alternative**: End-to-end encrypted group rooms. No account required. No message history stored.
+- **Slack Alternative**: Encrypted team communication. No admin visibility. No eDiscovery exposure.
+- **iMessage Alternative**: Cross-platform (any browser). No Apple ID required. No cloud backup risks.
+- **Facebook Messenger Alternative**: No advertising data model. No social media account needed.
+- **Snapchat Alternative**: Genuinely ephemeral (RAM-only). Real encryption. No server-side storage.
+- **Zoom Alternative**: Zero-knowledge encryption. No account needed. Cannot be recorded server-side.
+- **Microsoft Teams Alternative**: No admin access to conversations. No eDiscovery. No message retention.
+
+Alternatives Hub: https://www.zkchat.org/alternative-to
+
+---
+
+## Blog / Resources
+
+- "zkChat is Now Open Source" — Full open-source release announcement (AGPL-3.0)
+- "EU Chat Control and Metadata Surveillance Analysis" — Deep analysis of EU regulatory threats to encryption
+- "Why I Built zkChat" — Origin story and privacy philosophy
+- "How zkChat Works Under the Hood" — Technical deep-dive into the encryption architecture
+- "Why Donations Matter for Privacy Tools" — Sustainability without compromising privacy
+- "10 Real-World Use Cases for zkChat" — Practical scenarios for ephemeral encrypted messaging
+- "The Complete Guide to One-Time Messages" — How OTM works and when to use it
+
+Blog: https://www.zkchat.org/blog
+
+---
+
+## Open Source
+
+zkChat is fully open source under the AGPL-3.0 license.
+
+- Frontend: https://github.com/zkChatOrg/frontend
+- Backend: https://github.com/zkChatOrg/backend
+- Contributing: https://github.com/zkChatOrg/frontend/blob/main/CONTRIBUTING.md
+
+---
+
+## Contact
+
+- Website: https://www.zkchat.org
+- Legal: legal@zkchat.org
+- Privacy: privacy@zkchat.org
+- Company: OpenZK LLC, Wyoming, United States

@@ -1,0 +1,39 @@
+# zkChat
+
+> Ephemeral end-to-end encrypted chat, file-drop, and one-time messages. No accounts. No metadata. No logs. No identities. Everything burns the moment you leave.
+
+zkChat is a zero-knowledge, privacy-first messaging platform. All encryption happens client-side using AES-256-GCM via the Web Crypto API. The server never sees plaintext — it only relays encrypted blobs. Encryption keys are embedded in URL fragments and never transmitted to the server.
+
+## Core Products
+
+- [Encrypted Chat Rooms](https://www.zkchat.org/chat): Real-time ephemeral group chat with random personas
+- [One-Time Messages](https://www.zkchat.org/otm): Self-destructing messages that vanish after reading
+- [Encrypted File Drop](https://www.zkchat.org/file): Peer-to-peer encrypted file transfers in-browser
+
+## Key Properties
+
+- End-to-end encrypted (AES-256-GCM)
+- Zero-knowledge architecture — server cannot decrypt anything
+- No accounts, no phone numbers, no email required
+- No metadata logging
+- Ephemeral by design — data destroyed when sessions end
+- Fully open source (AGPL-3.0)
+- Built with Next.js, TypeScript, and Web Crypto API
+
+## Links
+
+- [Homepage](https://www.zkchat.org)
+- [Blog](https://www.zkchat.org/blog)
+- [Privacy Glossary](https://www.zkchat.org/learn)
+- [Use Cases](https://www.zkchat.org/for)
+- [Comparisons](https://www.zkchat.org/compare)
+- [FAQ / Answers](https://www.zkchat.org/answers)
+- [Alternatives](https://www.zkchat.org/alternative-to)
+- [Legal / Privacy Policy](https://www.zkchat.org/legal)
+- [GitHub (Frontend)](https://github.com/zkChatOrg/frontend)
+- [GitHub (Backend)](https://github.com/zkChatOrg/backend)
+- [Full LLM Context](https://www.zkchat.org/llms-full.txt)
+
+## Company
+
+zkChat is built by OpenZK LLC, a Wyoming (US) company focused on privacy-first communication tools.
